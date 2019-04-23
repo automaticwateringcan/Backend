@@ -1,6 +1,7 @@
 package com.studio.happyflower.controller;
 
 import com.studio.happyflower.model.entity.Plant;
+import com.studio.happyflower.model.helper.Sensor;
 import com.studio.happyflower.model.repository.PlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,6 +71,24 @@ public class PlantController {
     ResponseEntity<?> deletePlant(@PathVariable Long id) {
         plantRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    // sensors
+    @PutMapping("/updateSensor")
+    ResponseEntity<Plant> updateSensor(@Valid @RequestBody Sensor sensor) {
+        Optional<Plant> plantOptional = plantRepository.findById(sensor.getId());
+        if(plantOptional.isPresent()){
+            Plant plant = plantOptional.get();
+            plant.setSoilMosture(sensor.getSoilMosture());
+            plant.setHumidity(sensor.getHumidity());
+            plant.setTemperature(sensor.getTemperature());
+//            plant.setUser(updatedPlant.getUser());
+            plantRepository.save(plant);
+            return ResponseEntity.ok().body(plant);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
