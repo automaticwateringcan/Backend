@@ -3,7 +3,6 @@ package com.studio.happyflower;
 import com.studio.happyflower.model.entity.Plant;
 import com.studio.happyflower.model.entity.Species;
 import com.studio.happyflower.model.entity.User;
-import com.studio.happyflower.model.repository.PlantRepository;
 import com.studio.happyflower.model.repository.SpeciesRepository;
 import com.studio.happyflower.model.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,8 +41,8 @@ public class HappyflowerApplication {
             plants2.add(new Plant("Róża", true, LocalDateTime.now(), 500, 0.5, 20, 30, 25, s2));
 
             //tworzenie userów
-            userRepository.save(new User("Michal", "mwypych@mail.com", "dupa", plants1));
-            userRepository.save(new User("Chloe", "obrien@seventy.com", "haslo", plants2));
+            userRepository.save(new User("Adam", "adam@gmail.com", "12#", plants1));
+            userRepository.save(new User("Chloe", "chloe@gmail.com", "safepassword", plants2));
 
         };
     }
