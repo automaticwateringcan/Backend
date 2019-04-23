@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/species")
+@CrossOrigin
 public class SpeciesController {
 
     @Autowired

@@ -25,9 +25,9 @@ public class Species {
     @Column(nullable = false, name = "def_watering_interval")
     private int defWateringInterval;
 
-    @OneToMany(mappedBy = "species", cascade = CascadeType.PERSIST)
-    @JsonManagedReference
-    private Set<Plant> plants;
+//    @OneToMany(mappedBy = "species", cascade = CascadeType.PERSIST)
+//    @JsonManagedReference
+//    private Set<Plant> plants;
 
     public Species(String name, String description, double defSoilMostureLimit, int defWateringInterval) {
         this.name = name;
@@ -36,13 +36,13 @@ public class Species {
         this.defWateringInterval = defWateringInterval;
     }
 
-    public Species(String name, String description, double defSoilMostureLimit, int defWateringInterval, Set<Plant> plants) {
-        this.name = name;
-        this.description = description;
-        this.defSoilMostureLimit = defSoilMostureLimit;
-        this.defWateringInterval = defWateringInterval;
-        this.plants = plants;
-    }
+//    public Species(String name, String description, double defSoilMostureLimit, int defWateringInterval, Set<Plant> plants) {
+//        this.name = name;
+//        this.description = description;
+//        this.defSoilMostureLimit = defSoilMostureLimit;
+//        this.defWateringInterval = defWateringInterval;
+//        this.plants = plants;
+//    }
 
     public Species() {
     }
@@ -87,11 +87,11 @@ public class Species {
         this.defWateringInterval = defWateringInterval;
     }
 
-    public Set<Plant> getPlants() {
-        return plants;
-    }
+//    public Set<Plant> getPlants() {
+//        return plants;
+//    }
 
-    public void setPlants(Set<Plant> plants) {
-        this.plants = plants;
-    }
+//    public void setPlants(Set<Plant> plants) {
+//        this.plants = plants;
+//    }
 }

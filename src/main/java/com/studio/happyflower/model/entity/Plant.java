@@ -44,7 +44,7 @@ public class Plant {
 
     @ManyToOne
     @JoinColumn(name = "species_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Species species;
 
     public long getId() {
@@ -144,6 +144,18 @@ public class Plant {
         this.soilMostureLimit = soilMostureLimit;
         this.humidity = humidity;
         this.temperature = temperature;
+    }
+
+    public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature, Species species) {
+        this.name = name;
+        this.auto = auto;
+        this.lastWatering = lastWatering;
+        this.wateringInterval = wateringInterval;
+        this.soilMosture = soilMosture;
+        this.soilMostureLimit = soilMostureLimit;
+        this.humidity = humidity;
+        this.temperature = temperature;
+        this.species = species;
     }
 
     public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature, User user, Species species) {

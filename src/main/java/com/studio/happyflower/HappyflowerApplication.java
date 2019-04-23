@@ -1,8 +1,10 @@
 package com.studio.happyflower;
 
 import com.studio.happyflower.model.entity.Plant;
+import com.studio.happyflower.model.entity.Species;
 import com.studio.happyflower.model.entity.User;
 import com.studio.happyflower.model.repository.PlantRepository;
+import com.studio.happyflower.model.repository.SpeciesRepository;
 import com.studio.happyflower.model.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,49 +24,28 @@ public class HappyflowerApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(UserRepository userRepository, PlantRepository plantRepository) {
+    public CommandLineRunner demo(UserRepository userRepository, SpeciesRepository speciesRepository) {
         return (args) -> {
-            // save a couple of customers
-            Set<Plant> plants = new HashSet<>();
-            plants.add(new Plant("nazwa", true, LocalDateTime.now(), 8000, 0.5, 0.3, 0.7, 25));
-            plants.add(new Plant("druga_roslinka", true, LocalDateTime.now(), 8000, 0.5, 0.3, 0.7, 25));
-            userRepository.save(new User("Michal", "mwypych@mail.com", "dupa", plants));
-            userRepository.save(new User("Chloe", "obrien@seventy.com", "haslo"));
 
+            //tworzenie gatunków
+            Species s1 = new Species("Storczyk", "Storczyki budzą zachwyt fantazyjnym kształtem kwiatów i wspaniałymi kolorami.", 30, 8000);
+            Species s2 = new Species("Róża", "Róża to bez wątpienia najpopularniejsza, a zarazem jedna z najstarszych roślin ozdobnych na świecie.", 15, 10000);
+            Species s3 = new Species("Tulipan", "Polski serial telewizyjny z roku 1986, przedstawiający perypetie uwodziciela-oszusta o przydomku Tulipan", 20, 6000);
+            speciesRepository.save(s1);
+            speciesRepository.save(s2);
+            speciesRepository.save(s3);
 
+            //tworzenie roślinek
+            Set<Plant> plants1 = new HashSet<>();
+            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 8000, 0.5, 0.3, 0.7, 25, s1));
+            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 6000, 0.5, 0.3, 0.7, 25, s1));
+            Set<Plant> plants2 = new HashSet<>();
+            plants2.add(new Plant("Róża", true, LocalDateTime.now(), 500, 0.5, 20, 30, 25, s2));
 
+            //tworzenie userów
+            userRepository.save(new User("Michal", "mwypych@mail.com", "dupa", plants1));
+            userRepository.save(new User("Chloe", "obrien@seventy.com", "haslo", plants2));
 
-//            repository.save(new Customer("Kim", "Bauer"));
-//            repository.save(new Customer("David", "Palmer"));
-//            repository.save(new Customer("Michelle", "Dessler"));
-
-//            // fetch all customers
-//            log.info("Customers found with findAll():");
-//            log.info("-------------------------------");
-//            for (Customer customer : repository.findAll()) {
-//                log.info(customer.toString());
-//            }
-//            log.info("");
-//
-//            // fetch an individual customer by ID
-//            repository.findById(1L)
-//                    .ifPresent(customer -> {
-//                        log.info("Customer found with findById(1L):");
-//                        log.info("--------------------------------");
-//                        log.info(customer.toString());
-//                        log.info("");
-//                    });
-//
-//            // fetch customers by last name
-//            log.info("Customer found with findByLastName('Bauer'):");
-//            log.info("--------------------------------------------");
-//            repository.findByLastName("Bauer").forEach(bauer -> {
-//                log.info(bauer.toString());
-//            });
-//            // for (Customer bauer : repository.findByLastName("Bauer")) {
-//            // 	log.info(bauer.toString());
-//            // }
-//            log.info("");
         };
     }
 
