@@ -1,11 +1,18 @@
 package com.studio.happyflower;
 
+import com.studio.happyflower.model.entity.Plant;
 import com.studio.happyflower.model.entity.User;
+import com.studio.happyflower.model.repository.PlantRepository;
 import com.studio.happyflower.model.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootApplication
 public class HappyflowerApplication {
@@ -15,11 +22,18 @@ public class HappyflowerApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(UserRepository repository) {
+    public CommandLineRunner demo(UserRepository userRepository, PlantRepository plantRepository) {
         return (args) -> {
             // save a couple of customers
-            repository.save(new User("Michal", "mwypych@mail.com", "dupa"));
-            repository.save(new User("Chloe", "obrien@seventy.com", "haslo"));
+            Set<Plant> plants = new HashSet<>();
+            plants.add(new Plant("nazwa", true, LocalDateTime.now(), 8000, 0.5, 0.3, 0.7, 25));
+            plants.add(new Plant("druga_roslinka", true, LocalDateTime.now(), 8000, 0.5, 0.3, 0.7, 25));
+            userRepository.save(new User("Michal", "mwypych@mail.com", "dupa", plants));
+            userRepository.save(new User("Chloe", "obrien@seventy.com", "haslo"));
+
+
+
+
 //            repository.save(new Customer("Kim", "Bauer"));
 //            repository.save(new Customer("David", "Palmer"));
 //            repository.save(new Customer("Michelle", "Dessler"));

@@ -52,6 +52,7 @@ public class UserController {
             user.setName(updatedUser.getName());
             user.setEmail(updatedUser.getEmail());
             user.setPassword(updatedUser.getPassword());
+            user.setPlants(updatedUser.getPlants());
             userRepository.save(user);
             return ResponseEntity.ok().body(user);
         }

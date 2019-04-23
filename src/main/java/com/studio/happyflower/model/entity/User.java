@@ -1,7 +1,9 @@
 package com.studio.happyflower.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class User{
@@ -19,6 +21,10 @@ public class User{
 
     @Column(nullable = false, name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Plant> plants;
 
     public long getId() {
         return id;
@@ -50,6 +56,22 @@ public class User{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Plant> getPlants() {
+        return plants;
+    }
+
+    public void setPlants(Set<Plant> plants) {
+        this.plants = plants;
+    }
+
+    public User(String name, String email, String password, Set<Plant> plants) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.plants = plants;
+        this.plants.forEach(plant -> plant.setUser(this));
     }
 
     public User(String name, String email, String password) {
