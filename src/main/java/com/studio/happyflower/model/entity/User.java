@@ -1,5 +1,6 @@
 package com.studio.happyflower.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class User{
     @Column(nullable = false, name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<Plant> plants;
 

@@ -23,7 +23,7 @@ public class Plant {
     private LocalDateTime lastWatering;
 
     @Column(name = "watering_interval")
-    private double wateringInterval;
+    private int wateringInterval;
 
     @Column(name = "soil_mosture")
     private double soilMosture;
@@ -41,6 +41,11 @@ public class Plant {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "species_id")
+    @JsonBackReference
+    private Species species;
 
     public long getId() {
         return id;
@@ -74,11 +79,11 @@ public class Plant {
         this.lastWatering = lastWatering;
     }
 
-    public double getWateringInterval() {
+    public int getWateringInterval() {
         return wateringInterval;
     }
 
-    public void setWateringInterval(double wateringInterval) {
+    public void setWateringInterval(int wateringInterval) {
         this.wateringInterval = wateringInterval;
     }
 
@@ -122,7 +127,15 @@ public class Plant {
         this.user = user;
     }
 
-    public Plant(String name, boolean auto, LocalDateTime lastWatering, double wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature) {
+    public Species getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Species species) {
+        this.species = species;
+    }
+
+    public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature) {
         this.name = name;
         this.auto = auto;
         this.lastWatering = lastWatering;
@@ -133,7 +146,7 @@ public class Plant {
         this.temperature = temperature;
     }
 
-    public Plant(String name, boolean auto, LocalDateTime lastWatering, double wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature, User user) {
+    public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature, User user, Species species) {
         this.name = name;
         this.auto = auto;
         this.lastWatering = lastWatering;
@@ -143,6 +156,7 @@ public class Plant {
         this.humidity = humidity;
         this.temperature = temperature;
         this.user = user;
+        this.species = species;
     }
 
     public Plant() {

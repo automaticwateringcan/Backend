@@ -1,7 +1,6 @@
 package com.studio.happyflower.controller;
 
 import com.studio.happyflower.model.entity.Plant;
-import com.studio.happyflower.model.entity.User;
 import com.studio.happyflower.model.repository.PlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
