@@ -98,27 +98,27 @@ public class PlantController {
 
     // TODO
     // tu chciałem spróbować wysyłać zwykłego JSONa zamiast Entity, potem można stworzyć klasę do nawadniania
-    @PutMapping("/water")
-    public ResponseEntity<Plant> water(@Valid @RequestBody Plant plant) throws JSONException {
-        Optional<Plant> plantOptional = plantRepository.findById(plant.getId());
+    @PostMapping("/water/{id}")
+    public ResponseEntity<Plant> water(@PathVariable Long id, @RequestParam Integer portions) throws JSONException {
+        Optional<Plant> plantOptional = plantRepository.findById(id);
         if(plantOptional.isPresent()){
             Plant plantWatered = plantOptional.get();
 
             //sending REST request to Arduino to water the plant
-            final String uri = "localhost:8080/emb/water/" + plant.getId();
+            final String uri = "localhost:8080/emb/water/" + id.toString();
             RestTemplate restTemplate = new RestTemplate();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("portion", 1);
+            jsonObject.put("portion", portions);
 
             HttpEntity<JSONObject> entity = new HttpEntity<>(jsonObject, headers);
 
             System.out.println(entity);
 
-            ResponseEntity<String> result = restTemplate.postForEntity(uri, entity, String.class);
+//            ResponseEntity<String> result = restTemplate.postForEntity(uri, entity, String.class);
 
             //TODO
             // Dodać handlowanie przypadków, kiedy podlewanie nie dojdzie do skutku
