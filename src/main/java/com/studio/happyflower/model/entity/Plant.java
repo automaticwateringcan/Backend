@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Plant {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "plant_id")
     private long id;
 
@@ -36,6 +36,9 @@ public class Plant {
 
     @Column(name = "temperature")
     private double temperature;
+
+    @Column(name = "portions")
+    private int portions;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -135,6 +138,14 @@ public class Plant {
         this.species = species;
     }
 
+    public int getPortions() {
+        return portions;
+    }
+
+    public void setPortions(int portions) {
+        this.portions = portions;
+    }
+
     public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature) {
         this.name = name;
         this.auto = auto;
@@ -144,6 +155,7 @@ public class Plant {
         this.soilMostureLimit = soilMostureLimit;
         this.humidity = humidity;
         this.temperature = temperature;
+        this.portions = 0;
     }
 
     public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature, Species species) {
@@ -155,6 +167,7 @@ public class Plant {
         this.soilMostureLimit = soilMostureLimit;
         this.humidity = humidity;
         this.temperature = temperature;
+        this.portions = 0;
         this.species = species;
     }
 
@@ -167,12 +180,11 @@ public class Plant {
         this.soilMostureLimit = soilMostureLimit;
         this.humidity = humidity;
         this.temperature = temperature;
+        this.portions = 0;
         this.user = user;
         this.species = species;
     }
 
     public Plant() {
     }
-
-
 }

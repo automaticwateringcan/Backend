@@ -35,10 +35,10 @@ public class HappyflowerApplication {
 
             //tworzenie roślinek
             Set<Plant> plants1 = new HashSet<>();
-            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 8000, 0.5, 0.3, 0.7, 25, s1));
-            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 6000, 0.5, 0.3, 0.7, 25, s1));
+            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 8000, 55.0, 35.0, 22.0, 22, s1));
+            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 6000, 60.0, 35.0, 23.0, 23, s1));
             Set<Plant> plants2 = new HashSet<>();
-            plants2.add(new Plant("Róża", true, LocalDateTime.now(), 500, 0.5, 20, 30, 25, s2));
+            plants2.add(new Plant("Róża", true, LocalDateTime.now(), 500, 65.0, 60.0, 30.0, 20, s2));
 
             //tworzenie userów
             userRepository.save(new User("Adam", "adam@gmail.com", "12#", plants1));

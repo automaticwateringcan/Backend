@@ -34,10 +34,9 @@ public class PlantController {
     @GetMapping("/{id}")
     ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Plant> plant = plantRepository.findById(id);
-        if(plant.isPresent()) {
+        if (plant.isPresent()) {
             return ResponseEntity.ok().body(plant);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -53,7 +52,7 @@ public class PlantController {
     @PutMapping("/{id}")
     ResponseEntity<Plant> updatePlant(@PathVariable Long id, @Valid @RequestBody Plant updatedPlant) {
         Optional<Plant> plantOptional = plantRepository.findById(id);
-        if(plantOptional.isPresent()){
+        if (plantOptional.isPresent()) {
             Plant plant = plantOptional.get();
             plant.setName(updatedPlant.getName());
             plant.setAuto(updatedPlant.isAuto());
@@ -66,8 +65,7 @@ public class PlantController {
 //            plant.setUser(updatedPlant.getUser());
             plantRepository.save(plant);
             return ResponseEntity.ok().body(plant);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -82,8 +80,8 @@ public class PlantController {
     @PutMapping("/updateSensor")
     ResponseEntity<Plant> updateSensor(@Valid @RequestBody Sensor sensor) {
         Optional<Plant> plantOptional = plantRepository.findById(sensor.getId());
-        System.out.println("\n\n"+sensor.toString()+"\n\n");
-        if(plantOptional.isPresent()){
+        System.out.println("\n\n" + sensor.toString() + "\n\n");
+        if (plantOptional.isPresent()) {
             Plant plant = plantOptional.get();
             plant.setSoilMosture(sensor.getSoilMosture());
             plant.setHumidity(sensor.getHumidity());
@@ -91,21 +89,38 @@ public class PlantController {
 //            plant.setUser(updatedPlant.getUser());
             plantRepository.save(plant);
             return ResponseEntity.ok().body(plant);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // TODO
-    // tu chciałem spróbować wysyłać zwykłego JSONa zamiast Entity, potem można stworzyć klasę do nawadniania
     @PostMapping("/water/{id}")
-    public ResponseEntity<Plant> water(@PathVariable Long id, @RequestParam Integer portions) throws JSONException {
+    public ResponseEntity<Plant> water(@PathVariable Long id, @RequestParam Integer portions) {
         Optional<Plant> plantOptional = plantRepository.findById(id);
-        if(plantOptional.isPresent()){
+        if (plantOptional.isPresent()) {
+
+            // save portions to DB
+            Plant plantToWater = plantOptional.get();
+            plantToWater.setPortions(portions);
+            plantRepository.save(plantToWater);
+
+            return ResponseEntity.ok().body(plantToWater);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/water/{id}")
+    public ResponseEntity<String> waterArduino(@PathVariable Long id) throws JSONException {
+        Optional<Plant> plantOptional = plantRepository.findById(id);
+        if (plantOptional.isPresent()) {
             Plant plantWatered = plantOptional.get();
 
-            //sending REST request to Arduino to water the plant
+            int portions = plantWatered.getPortions();
+
+            int soilMostureLimit = (int) plantWatered.getSoilMostureLimit();
+
+
             final String uri = "localhost:8080/emb/water/" + id.toString();
             RestTemplate restTemplate = new RestTemplate();
 
@@ -114,23 +129,26 @@ public class PlantController {
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("portion", portions);
+            jsonObject.put("soilMoistureLimit", soilMostureLimit);
 
             HttpEntity<JSONObject> entity = new HttpEntity<>(jsonObject, headers);
 
-            System.out.println(entity);
+            System.out.println(jsonObject.toString());
 
-//            ResponseEntity<String> result = restTemplate.postForEntity(uri, entity, String.class);
+            if (portions > 0) {
+                plantWatered.setLastWatering(LocalDateTime.now());
+                plantWatered.setPortions(0);
+
+                plantRepository.save(plantWatered);
+            }
 
             //TODO
             // Dodać handlowanie przypadków, kiedy podlewanie nie dojdzie do skutku
 
-            plantWatered.setLastWatering(LocalDateTime.now());
-            plantRepository.save(plantWatered);
-            return ResponseEntity.ok().body(plantWatered);
-        }
-        else {
+
+            return ResponseEntity.ok().body(jsonObject.toString());
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }
