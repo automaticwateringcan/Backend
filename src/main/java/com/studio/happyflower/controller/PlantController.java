@@ -77,6 +77,7 @@ public class PlantController {
     @PutMapping("/updateSensor")
     ResponseEntity<Plant> updateSensor(@Valid @RequestBody Sensor sensor) {
         Optional<Plant> plantOptional = plantRepository.findById(sensor.getId());
+        System.out.println("\n\n"+sensor.toString()+"\n\n");
         if(plantOptional.isPresent()){
             Plant plant = plantOptional.get();
             plant.setSoilMosture(sensor.getSoilMosture());

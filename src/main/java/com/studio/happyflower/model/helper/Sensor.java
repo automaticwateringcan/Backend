@@ -47,4 +47,14 @@ public class Sensor {
 
     public Sensor() {
     }
+
+    @Override
+    public String toString() {
+        return "Sensor{" +
+                "id=" + id +
+                ", soilMosture=" + soilMosture +
+                ", humidity=" + humidity +
+                ", temperature=" + temperature +
+                '}';
+    }
 }
