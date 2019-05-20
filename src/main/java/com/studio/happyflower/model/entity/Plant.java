@@ -57,7 +57,6 @@ public class Plant {
     @JsonManagedReference
     private List<Measurement> measurements;
 
-
     public long getId() {
         return id;
     }
@@ -215,6 +214,23 @@ public class Plant {
         this.species = species;
         this.measurements = measurements;
     }
+
+    public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature, Species species, List<Measurement> measurements) {
+        this.name = name;
+        this.auto = auto;
+        this.lastWatering = lastWatering;
+        this.wateringInterval = wateringInterval;
+        this.soilMosture = soilMosture;
+        this.soilMostureLimit = soilMostureLimit;
+        this.humidity = humidity;
+        this.temperature = temperature;
+        this.species = species;
+        this.measurements = measurements;
+        for(Measurement measurement : measurements){
+            measurement.setPlant(this);
+        }
+    }
+
 
     public Plant() {
     }

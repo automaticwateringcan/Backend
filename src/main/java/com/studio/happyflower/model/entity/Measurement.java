@@ -69,6 +69,14 @@ public class Measurement {
         this.temperature = temperature;
     }
 
+    public Plant getPlant() {
+        return plant;
+    }
+
+    public void setPlant(Plant plant) {
+        this.plant = plant;
+    }
+
     public Measurement(LocalDateTime dateTime, double soilMosture, double humidity, double temperature) {
         this.dateTime = dateTime;
         this.soilMosture = soilMosture;
