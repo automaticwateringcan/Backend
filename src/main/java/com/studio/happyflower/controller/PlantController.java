@@ -141,7 +141,7 @@ public class PlantController {
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("portion", portions);
-            jsonObject.put("soilMoistureLimit", soilMostureLimit);
+//            jsonObject.put("soilMoistureLimit", soilMostureLimit);
 
             HttpEntity<JSONObject> entity = new HttpEntity<>(jsonObject, headers);
 
