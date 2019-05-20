@@ -1,5 +1,7 @@
 package com.studio.happyflower.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -21,6 +23,11 @@ public class Measurement {
 
     @Column(name = "temperature")
     double temperature;
+
+    @ManyToOne
+    @JoinColumn(name = "plant_id")
+    @JsonBackReference
+    Plant plant;
 
     public long getId() {
         return id;

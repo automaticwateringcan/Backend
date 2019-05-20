@@ -53,7 +53,7 @@ public class Plant {
 //    @JsonBackReference
     private Species species;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Measurement> measurements;
 
