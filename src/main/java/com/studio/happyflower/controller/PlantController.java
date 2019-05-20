@@ -1,8 +1,10 @@
 package com.studio.happyflower.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.studio.happyflower.model.entity.Measurement;
 import com.studio.happyflower.model.entity.Plant;
 import com.studio.happyflower.model.helper.Sensor;
+import com.studio.happyflower.model.repository.MeasurementRepository;
 import com.studio.happyflower.model.repository.PlantRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +18,10 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/plants")
@@ -25,6 +30,9 @@ public class PlantController {
 
     @Autowired
     private PlantRepository plantRepository;
+
+    @Autowired
+    private MeasurementRepository measurementRepository;
 
     @GetMapping
     public Iterable findAll() {
@@ -62,6 +70,7 @@ public class PlantController {
             plant.setSoilMostureLimit(updatedPlant.getSoilMostureLimit());
             plant.setHumidity(updatedPlant.getHumidity());
             plant.setTemperature(updatedPlant.getTemperature());
+            plant.setMeasurements(updatedPlant.getMeasurements());
 //            plant.setUser(updatedPlant.getUser());
             plantRepository.save(plant);
             return ResponseEntity.ok().body(plant);
@@ -82,11 +91,14 @@ public class PlantController {
         Optional<Plant> plantOptional = plantRepository.findById(sensor.getId());
         System.out.println("\n\n" + sensor.toString() + "\n\n");
         if (plantOptional.isPresent()) {
+            // TODO jak zadziała to edytować entity Plant żeby zawierała pojedyńcze pole Meauserement i set Meaurement
             Plant plant = plantOptional.get();
+            Measurement measurement = new Measurement(LocalDateTime.now(),sensor.getSoilMosture(), sensor.getHumidity(), sensor.getTemperature(), plant);
             plant.setSoilMosture(sensor.getSoilMosture());
             plant.setHumidity(sensor.getHumidity());
             plant.setTemperature(sensor.getTemperature());
-//            plant.setUser(updatedPlant.getUser());
+            measurementRepository.save(measurement);
+            plant.getMeasurements().add(measurement);
             plantRepository.save(plant);
             return ResponseEntity.ok().body(plant);
         } else {
@@ -150,5 +162,24 @@ public class PlantController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/measure/{id}")
+    public ResponseEntity<List<Measurement>> getMeauserements(@PathVariable Long id, @RequestParam int amount){
+        Optional<Plant> plantOptional = plantRepository.findById(id);
+        if(plantOptional.isPresent()) {
+            Plant plant = plantOptional.get();
+            List<Measurement> measurements;
+            if(amount <= plant.getMeasurements().size()){
+                measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size());
+            }
+            //TODO
+            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
+            else{
+                measurements = new ArrayList<>();
+            }
+            return ResponseEntity.ok().body(measurements);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

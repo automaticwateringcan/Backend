@@ -1,5 +1,6 @@
 package com.studio.happyflower;
 
+import com.studio.happyflower.model.entity.Measurement;
 import com.studio.happyflower.model.entity.Plant;
 import com.studio.happyflower.model.entity.Species;
 import com.studio.happyflower.model.entity.User;
@@ -11,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -33,9 +36,17 @@ public class HappyflowerApplication {
             speciesRepository.save(s2);
             speciesRepository.save(s3);
 
+            //pomiary
+            List<Measurement> measurements = new ArrayList<>();
+            Measurement m1 = new Measurement(LocalDateTime.now(), 15.0, 33.0, 16.0);
+            Measurement m2 = new Measurement(LocalDateTime.now(), 10.0, 11.0, 22.0);
+            measurements.add(m1);
+            measurements.add(m2);
+
+
             //tworzenie roślinek
             Set<Plant> plants1 = new HashSet<>();
-            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 8000, 55.0, 35.0, 22.0, 22, s1));
+            plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 8000, 55.0, 35.0, 22.0, 22, s1, measurements));
             plants1.add(new Plant("Storczyk", true, LocalDateTime.now(), 6000, 60.0, 35.0, 23.0, 23, s1));
             Set<Plant> plants2 = new HashSet<>();
             plants2.add(new Plant("Róża", true, LocalDateTime.now(), 500, 65.0, 60.0, 30.0, 20, s2));
