@@ -93,11 +93,10 @@ public class PlantController {
         if (plantOptional.isPresent()) {
             // TODO jak zadziała to edytować entity Plant żeby zawierała pojedyńcze pole Meauserement i set Meaurement
             Plant plant = plantOptional.get();
-            Measurement measurement = new Measurement(LocalDateTime.now(),sensor.getSoilMosture(), sensor.getHumidity(), sensor.getTemperature());
+            Measurement measurement = new Measurement(LocalDateTime.now(),sensor.getSoilMosture(), sensor.getHumidity(), sensor.getTemperature(), plant);
             plant.setSoilMosture(sensor.getSoilMosture());
             plant.setHumidity(sensor.getHumidity());
             plant.setTemperature(sensor.getTemperature());
-//            plant.setUser(updatedPlant.getUser());
             measurementRepository.save(measurement);
             plant.getMeasurements().add(measurement);
             plantRepository.save(plant);

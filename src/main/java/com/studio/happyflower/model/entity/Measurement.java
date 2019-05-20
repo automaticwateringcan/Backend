@@ -84,6 +84,13 @@ public class Measurement {
         this.temperature = temperature;
     }
 
+    public Measurement(LocalDateTime dateTime, double soilMosture, double humidity, double temperature, Plant plant) {
+        this.dateTime = dateTime;
+        this.soilMosture = soilMosture;
+        this.humidity = humidity;
+        this.temperature = temperature;
+        this.plant = plant;
+    }
 
     public Measurement() {
     }
