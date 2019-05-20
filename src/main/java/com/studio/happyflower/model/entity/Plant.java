@@ -1,9 +1,12 @@
 package com.studio.happyflower.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Plant {
@@ -49,6 +52,11 @@ public class Plant {
     @JoinColumn(name = "species_id")
 //    @JsonBackReference
     private Species species;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Measurement> measurements;
+
 
     public long getId() {
         return id;
@@ -146,6 +154,14 @@ public class Plant {
         this.portions = portions;
     }
 
+    public List<Measurement> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(List<Measurement> measurements) {
+        this.measurements = measurements;
+    }
+
     public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature) {
         this.name = name;
         this.auto = auto;
@@ -183,6 +199,21 @@ public class Plant {
         this.portions = 0;
         this.user = user;
         this.species = species;
+    }
+
+    public Plant(String name, boolean auto, LocalDateTime lastWatering, int wateringInterval, double soilMosture, double soilMostureLimit, double humidity, double temperature, int portions, User user, Species species, List<Measurement> measurements) {
+        this.name = name;
+        this.auto = auto;
+        this.lastWatering = lastWatering;
+        this.wateringInterval = wateringInterval;
+        this.soilMosture = soilMosture;
+        this.soilMostureLimit = soilMostureLimit;
+        this.humidity = humidity;
+        this.temperature = temperature;
+        this.portions = portions;
+        this.user = user;
+        this.species = species;
+        this.measurements = measurements;
     }
 
     public Plant() {
