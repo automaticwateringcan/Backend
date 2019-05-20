@@ -85,7 +85,6 @@ public class Measurement {
     }
 
 
-
     public Measurement() {
     }
 }
