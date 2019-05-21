@@ -10,6 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,11 +20,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Controller
 @SpringBootApplication
 public class HappyflowerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HappyflowerApplication.class, args);
+    }
+
+    @RequestMapping("/")
+    @ResponseBody
+    String home() {
+        return "Hello World!";
     }
 
     @Bean
