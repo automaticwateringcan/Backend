@@ -18,10 +18,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/plants")
@@ -133,7 +131,7 @@ public class PlantController {
             int soilMostureLimit = (int) plantWatered.getSoilMostureLimit();
 
 
-            final String uri = "localhost:8080/emb/water/" + id.toString();
+            final String uri = "172.16.23.112:8080/emb/water/" + id.toString();
             RestTemplate restTemplate = new RestTemplate();
 
             HttpHeaders headers = new HttpHeaders();
@@ -178,6 +176,70 @@ public class PlantController {
             else{
                 measurements = new ArrayList<>();
             }
+            return ResponseEntity.ok().body(measurements);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("/humidity/{id}")
+    public ResponseEntity<List<Double>> getHumidity(@PathVariable Long id, @RequestParam int amount){
+        Optional<Plant> plantOptional = plantRepository.findById(id);
+        if(plantOptional.isPresent()) {
+            Plant plant = plantOptional.get();
+            List<Double> measurements;
+            if(amount <= plant.getMeasurements().size()){
+                measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getHumidity()).collect(Collectors.toList());
+            }
+            //TODO
+            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
+            else{
+                measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
+                measurements.addAll(plant.getMeasurements().stream().map(item-> item.getHumidity()).collect(Collectors.toList()));
+            }
+
+            System.out.println(measurements);
+            return ResponseEntity.ok().body(measurements);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/temperature/{id}")
+    public ResponseEntity<List<Double>> getTemperature(@PathVariable Long id, @RequestParam int amount){
+        Optional<Plant> plantOptional = plantRepository.findById(id);
+        if(plantOptional.isPresent()) {
+            Plant plant = plantOptional.get();
+            List<Double> measurements;
+            if(amount <= plant.getMeasurements().size()){
+                measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getTemperature()).collect(Collectors.toList());
+            }
+            //TODO
+            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
+            else{
+                measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
+                measurements.addAll(plant.getMeasurements().stream().map(item-> item.getTemperature()).collect(Collectors.toList()));
+            }
+            System.out.println(measurements);
+            return ResponseEntity.ok().body(measurements);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/soil/{id}")
+    public ResponseEntity<List<Double>> getSoil(@PathVariable Long id, @RequestParam int amount){
+        Optional<Plant> plantOptional = plantRepository.findById(id);
+        if(plantOptional.isPresent()) {
+            Plant plant = plantOptional.get();
+            List<Double> measurements;
+            if(amount <= plant.getMeasurements().size()){
+                measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getSoilMosture()).collect(Collectors.toList());
+            }
+            //TODO
+            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
+            else{
+                measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
+                measurements.addAll(plant.getMeasurements().stream().map(item-> item.getSoilMosture()).collect(Collectors.toList()));
+            }
+
+            System.out.println(measurements);
             return ResponseEntity.ok().body(measurements);
         }
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
