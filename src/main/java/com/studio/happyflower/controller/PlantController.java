@@ -1,6 +1,5 @@
 package com.studio.happyflower.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.studio.happyflower.model.entity.Measurement;
 import com.studio.happyflower.model.entity.Plant;
 import com.studio.happyflower.model.helper.Sensor;
@@ -10,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,8 +16,11 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/plants")
@@ -243,5 +244,15 @@ public class PlantController {
             return ResponseEntity.ok().body(measurements);
         }
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/waterLevel/{id}")
+    public void waterLevel(@PathVariable Long id, @RequestParam boolean refillWater) {
+
+        System.out.println("WaterLevel: " + refillWater);
+
+        if (refillWater) {
+            System.out.println("WaterLevel is low. Refill.");
+        }
     }
 }
