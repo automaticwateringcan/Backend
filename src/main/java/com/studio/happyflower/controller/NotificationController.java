@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/api")
 @RestController
 public class NotificationController {
-    private final String TOPIC = "JavaSampleApproach";
+    private final String TOPIC = "Refill";
 
     @Autowired
     AndroidPushNotificationsService androidPushNotificationsService;

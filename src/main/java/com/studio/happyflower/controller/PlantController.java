@@ -129,12 +129,6 @@ public class PlantController {
 
             int portions = plantWatered.getPortions();
 
-            int soilMostureLimit = (int) plantWatered.getSoilMostureLimit();
-
-
-            final String uri = "172.16.23.112:8080/emb/water/" + id.toString();
-            RestTemplate restTemplate = new RestTemplate();
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -142,7 +136,6 @@ public class PlantController {
             jsonObject.put("portion", portions);
 //            jsonObject.put("soilMoistureLimit", soilMostureLimit);
 
-            HttpEntity<JSONObject> entity = new HttpEntity<>(jsonObject, headers);
 
             System.out.println(jsonObject.toString());
 
@@ -245,18 +238,4 @@ public class PlantController {
         }
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-//    @GetMapping("/waterLevel/{id}")
-//    public void waterLevel(@PathVariable Long id, @RequestParam boolean refillWater) {
-//
-//        System.out.println("WaterLevel: " + refillWater);
-//
-//        if (refillWater) {
-//            System.out.println("WaterLevel is low. Refill.");
-//
-//
-//
-//
-//        }
-//    }
 }
