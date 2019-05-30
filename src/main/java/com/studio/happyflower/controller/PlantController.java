@@ -246,17 +246,17 @@ public class PlantController {
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/waterLevel/{id}")
-    public void waterLevel(@PathVariable Long id, @RequestParam boolean refillWater) {
-
-        System.out.println("WaterLevel: " + refillWater);
-
-        if (refillWater) {
-            System.out.println("WaterLevel is low. Refill.");
-
-
-
-
-        }
-    }
+//    @GetMapping("/waterLevel/{id}")
+//    public void waterLevel(@PathVariable Long id, @RequestParam boolean refillWater) {
+//
+//        System.out.println("WaterLevel: " + refillWater);
+//
+//        if (refillWater) {
+//            System.out.println("WaterLevel is low. Refill.");
+//
+//
+//
+//
+//        }
+//    }
 }

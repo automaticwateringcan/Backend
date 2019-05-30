@@ -9,16 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RequestMapping("/api")
+@RestController
 public class NotificationController {
     private final String TOPIC = "JavaSampleApproach";
 
@@ -28,7 +26,7 @@ public class NotificationController {
     @Autowired
     private PlantRepository plantRepository;
 
-    @RequestMapping(value = "/plants/waterLevel/{id}", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping("/plants/waterLevel/{id}")
     public ResponseEntity<String> waterLevel(@PathVariable Long id, @RequestParam boolean refillWater) throws JSONException {
         Optional<Plant> plantOptional = plantRepository.findById(id);
         if(plantOptional.isPresent()) {
