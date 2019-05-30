@@ -146,10 +146,6 @@ public class PlantController {
                 plantRepository.save(plantWatered);
             }
 
-            //TODO
-            // Dodać handlowanie przypadków, kiedy podlewanie nie dojdzie do skutku
-
-
             return ResponseEntity.ok().body(jsonObject.toString());
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -165,8 +161,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>();
             }
@@ -183,8 +177,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getHumidity()).collect(Collectors.toList());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
                 measurements.addAll(plant.getMeasurements().stream().map(item-> item.getHumidity()).collect(Collectors.toList()));
@@ -205,8 +197,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getTemperature()).collect(Collectors.toList());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
                 measurements.addAll(plant.getMeasurements().stream().map(item-> item.getTemperature()).collect(Collectors.toList()));
@@ -226,8 +216,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getSoilMosture()).collect(Collectors.toList());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
                 measurements.addAll(plant.getMeasurements().stream().map(item-> item.getSoilMosture()).collect(Collectors.toList()));
