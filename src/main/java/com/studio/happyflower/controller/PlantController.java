@@ -129,12 +129,6 @@ public class PlantController {
 
             int portions = plantWatered.getPortions();
 
-            int soilMostureLimit = (int) plantWatered.getSoilMostureLimit();
-
-
-            final String uri = "172.16.23.112:8080/emb/water/" + id.toString();
-            RestTemplate restTemplate = new RestTemplate();
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -142,7 +136,6 @@ public class PlantController {
             jsonObject.put("portion", portions);
 //            jsonObject.put("soilMoistureLimit", soilMostureLimit);
 
-            HttpEntity<JSONObject> entity = new HttpEntity<>(jsonObject, headers);
 
             System.out.println(jsonObject.toString());
 
@@ -152,10 +145,6 @@ public class PlantController {
 
                 plantRepository.save(plantWatered);
             }
-
-            //TODO
-            // Dodać handlowanie przypadków, kiedy podlewanie nie dojdzie do skutku
-
 
             return ResponseEntity.ok().body(jsonObject.toString());
         } else {
@@ -172,8 +161,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>();
             }
@@ -190,8 +177,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getHumidity()).collect(Collectors.toList());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
                 measurements.addAll(plant.getMeasurements().stream().map(item-> item.getHumidity()).collect(Collectors.toList()));
@@ -212,8 +197,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getTemperature()).collect(Collectors.toList());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
                 measurements.addAll(plant.getMeasurements().stream().map(item-> item.getTemperature()).collect(Collectors.toList()));
@@ -233,8 +216,6 @@ public class PlantController {
             if(amount <= plant.getMeasurements().size()){
                 measurements = plant.getMeasurements().subList(plant.getMeasurements().size() - amount, plant.getMeasurements().size()).stream().map(item -> item.getSoilMosture()).collect(Collectors.toList());
             }
-            //TODO
-            // Wykminić sensowny system wyjątków i zwracanych wtedy responsów
             else{
                 measurements = new ArrayList<>(Collections.nCopies(amount-plant.getMeasurements().size(), 0d));
                 measurements.addAll(plant.getMeasurements().stream().map(item-> item.getSoilMosture()).collect(Collectors.toList()));
@@ -244,15 +225,5 @@ public class PlantController {
             return ResponseEntity.ok().body(measurements);
         }
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/waterLevel/{id}")
-    public void waterLevel(@PathVariable Long id, @RequestParam boolean refillWater) {
-
-        System.out.println("WaterLevel: " + refillWater);
-
-        if (refillWater) {
-            System.out.println("WaterLevel is low. Refill.");
-        }
     }
 }
